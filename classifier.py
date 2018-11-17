@@ -128,6 +128,7 @@ def sentiment2target(sentiment):
 
 
 if __name__ == "__main__":
+    #tweets, hate_speech, target, aggressive = readfile('./datasets/public_development_en/dev_en.tsv')
     tweets, hate_speech, target, aggressive = readfile('./datasets/trial_en.tsv')
     t = pd.DataFrame()
     t['text'] = tweets

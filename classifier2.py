@@ -31,10 +31,12 @@ def readfile(path):
     hs = []
     tr = []
     ag = []
+    id = []
     with open(path, encoding="utf8") as tsvfile:
         tsvreader = csv.reader(tsvfile, delimiter="\t")
         for line in tsvreader:
             tweets.append(line[1])
+            id.append(line[0])
             if(line[2]=='HS'):
                 hs.append(line[2])
             else:
@@ -45,7 +47,7 @@ def readfile(path):
         hs.pop(0)
         tr.pop(0)
         ag.pop(0)
-    return tweets, hs, tr, ag
+    return id, tweets, hs, tr, ag
 
 
 
@@ -72,7 +74,7 @@ def get_roc_curve(model, X, y):
 
 
 if __name__ == "__main__":
-    tweets, hate_speech, target, aggressive = readfile('./datasets/trial_en.tsv')
+    id, tweets, hate_speech, target, aggressive = readfile('./datasets/public_development_en/train_en.tsv')
     t = pd.DataFrame()
     t['text'] = tweets
     t['hate_decision'] = hate_speech
@@ -105,7 +107,7 @@ if __name__ == "__main__":
 
     grid_svm.fit(X_train, y_train)
     #print(grid_svm.score(X_test, y_test))
-    print(grid_svm.best_params_)
+    '''print(grid_svm.best_params_)
     print(grid_svm.best_score_)
 
     print(report_results(grid_svm.best_estimator_, X_test, y_test))
@@ -120,5 +122,21 @@ if __name__ == "__main__":
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title('Roc curve : Receiver Operating Characteristic')
-    plt.show()
+    plt.show()'''
+    f = open("./SVM Predictions/classifier2_prediction.tsv", "w")
+    neg_pred = 0
+    with open('./datasets/public_development_en/dev_en.tsv', encoding="utf8") as tsvfile:
+        tsvreader = csv.reader(tsvfile, delimiter="\t")
+        for line_number, line in enumerate(tsvreader):
+            if(line_number>0):
+                f.write(str(line[0])+"\t")
+                prediction = grid_svm.predict([line[1]])
+                if(str(prediction[0]) != str(line[2])):
+                    neg_pred = neg_pred + 1
+                f.write(str(prediction[0]))
+                f.write('\n')
+    f.close()
+    print(neg_pred)
+
+
 
