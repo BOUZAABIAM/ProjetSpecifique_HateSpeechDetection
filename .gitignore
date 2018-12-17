@@ -1,10 +1,9 @@
 .idea
 __pycache__
 gen_features
-svm_classifier/svm_predictions
+svm_classifier/svm_predictions/*.zip
 svm_classifier/en_classifier/classifier_test.py
 svm_classifier/en_classifier/classifier_test2.py
 svm_classifier/es_classifier/classifier_test.py
 svm_classifier/es_classifier/classifier_test2.py
-svm_classifier/es_classifier/es_b_classifier.py
 
