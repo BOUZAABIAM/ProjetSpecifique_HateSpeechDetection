@@ -56,7 +56,7 @@ def clean_tweet(tweet):
 
 
 def normalizer(tweet):
-    stop_words = set(stopwords.words('english'))
+    stop_words = set(stopwords.words('spanish'))
     wordnet_lemmatizer = WordNetLemmatizer()
     only_letters = clean_tweet(tweet)
     tokens = nltk.word_tokenize(only_letters)
@@ -159,14 +159,15 @@ if __name__ == "__main__":
     x = PrettyTable()
     vectorized_data = count_vectorizer.fit_transform(t.cleaned_tweet)
     features = count_vectorizer.get_feature_names()
-    x.field_names = features
+    '''x.field_names = features
     for row in vectorized_data.toarray():
         x.add_row(row)
     table_txt = x.get_string()
     with open('./gen_features/Tweet_ngram1.tsv', 'w') as file:
-        file.write(table_txt)
+        file.write(table_txt)'''
 
     indexed_data = hstack((np.array(range(0, vectorized_data.shape[0]))[:, None], vectorized_data))
+    print(indexed_data.shape)
     targets = t.hate_decision.apply(sentiment2target)
     data_train, data_test, targets_train, targets_test = train_test_split(indexed_data, targets, test_size=0.4, random_state=10)
     data_train_index = data_train[:, 0]
@@ -181,7 +182,7 @@ if __name__ == "__main__":
     print('The mean accuracy on the given test data : '+str(clf.score(data_test, targets_test)))
 
     print("=============================== Processing SVM using sentiment analysis ===============================")
-    x = PrettyTable()
+    '''x = PrettyTable()
     vectorized_data = count_vectorizer.fit_transform(t.normalized_tweet)
     features = count_vectorizer.get_feature_names()
     x.field_names = features
@@ -201,7 +202,7 @@ if __name__ == "__main__":
     data_test = data_test[:, 1:]
     clf = OneVsOneClassifier(svm.SVC(gamma=0.01, C=100, probability=True, class_weight='balanced', kernel='linear'))
     clf_output = clf.fit(data_train, targets_train)
-    print('The mean accuracy on the given test data : '+str(clf.score(data_test, targets_test)))
+    print('The mean accuracy on the given test data : '+str(clf.score(data_test, targets_test)))'''
 
 
 

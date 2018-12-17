@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import csv
-from preprocessing import *
+from svm_classifier.preprocessing import *
 
 
 def readfile(path):

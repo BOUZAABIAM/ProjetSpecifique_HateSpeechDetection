@@ -96,6 +96,6 @@ def n_grams_stat(input_file, encoding, n_filter, n):
 
 
 if __name__ == "__main__":
-    s = n_grams_stat("./datasets/trial_en.tsv",'utf-8', n_filter=3, n=2)
+    s = n_grams_stat("../datasets/trial_en.tsv",'utf8', n_filter=3, n=2)
     for a, b, c, d, e in s:
         print(a, b, c, d, e)
