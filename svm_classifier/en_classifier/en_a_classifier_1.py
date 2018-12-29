@@ -1,25 +1,25 @@
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-
-import pandas as pd
 import csv
 import re, nltk
-# nltk.download('punkt')
-# nltk.download('wordnet')
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import stopwords
-from nltk import ngrams
 import collections
 import numpy as np
+import pandas as pd
+from nltk import ngrams
+# nltk.download('punkt')
+# nltk.download('wordnet')
 from scipy.sparse import hstack
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import stopwords
+pd.set_option('display.max_colwidth', -1)
+from prettytable import PrettyTable
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn import svm
 from sklearn.multiclass import OneVsOneClassifier, OneVsRestClassifier
 from nltk.tokenize import TweetTokenizer
-pd.set_option('display.max_colwidth', -1)
-from prettytable import PrettyTable
 from sklearn.metrics import confusion_matrix, roc_auc_score, recall_score, precision_score, f1_score, accuracy_score
 
 
@@ -87,7 +87,6 @@ def clean_my_tweet(tweet):
     lower_case = [l.lower() for l in tokens]
     cleaned = ' '.join(t for t in lower_case)
     return cleaned
-
 
 
 def ngrams(input_list):
@@ -190,7 +189,7 @@ if __name__ == "__main__":
         x.add_row(row)
     table_txt = x.get_string()
     with open('./gen_features/Tweet_ngram_SA.tsv', 'w') as file:
-        file.write(table_txt)
+        file.write(table_txt)'''
 
     indexed_data = hstack((np.array(range(0, vectorized_data.shape[0]))[:, None], vectorized_data))
     targets = t.hate_decision.apply(sentiment2target)
@@ -202,7 +201,7 @@ if __name__ == "__main__":
     data_test = data_test[:, 1:]
     clf = OneVsOneClassifier(svm.SVC(gamma=0.01, C=100, probability=True, class_weight='balanced', kernel='linear'))
     clf_output = clf.fit(data_train, targets_train)
-    print('The mean accuracy on the given test data : '+str(clf.score(data_test, targets_test)))'''
+    print('The mean accuracy on the given test data : '+str(clf.score(data_test, targets_test)))
 
 
 
