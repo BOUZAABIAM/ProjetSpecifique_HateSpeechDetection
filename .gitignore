@@ -2,6 +2,6 @@
 __pycache__
 gen_features
 svm_classifier/svm_predictions/*.zip
-svm_classifier/es_classifier
+svm_classifier/en_classifier/*.py
 
 

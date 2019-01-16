@@ -152,26 +152,6 @@ if __name__ == "__main__":
                 f.write(str(prediction[0]))
                 f.write('\n')
 
-                '''if(str(prediction[0]) != str(line[2])):
-                    neg_pred = neg_pred + 1
-                    print(proba)
-                    print(line[1])
-                f.write(str(prediction[0]))
-                f.write('\n')'''
-                '''if str(prediction[0]) != str(line[2]):
-                    if neg_pred < 21:
-                        neg_pred = neg_pred + 1
-                        #print(proba)
-                        #print(line[1])
-                        f.write(str(line[2]))
-                        f.write('\n')
-                    else:
-                        neg_pred = neg_pred + 1
-                        f.write(str(prediction[0]))
-                        f.write('\n')
-                else:
-                    f.write(str(prediction[0]))
-                    f.write('\n')'''
     f.close()
     #print(neg_pred)
 
