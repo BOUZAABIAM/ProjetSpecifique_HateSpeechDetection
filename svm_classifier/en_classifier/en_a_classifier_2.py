@@ -72,14 +72,24 @@ def get_roc_curve(model, X, y):
 
 
 if __name__ == "__main__":
-
+    input_training_files = [
+        '../../datasets/public_development_en/train_en.tsv',
+        '../../datasets/trial_en.tsv',
+        '../../datasets/public_development_es/dev_es.tsv'
+    ]
     # Read english (train + trial) data
-    id, tweets, hate_speech, target, aggressive = readfile('../../datasets/public_development_en/train_en.tsv')
-    trial_data = readfile('../../datasets/trial_en.tsv')
-    id = id + trial_data[0]
-    tweets = tweets + trial_data[1]
-    hate_speech = hate_speech + trial_data[2]
-    target = target + trial_data[3]
+    id = []
+    tweets = []
+    hate_speech = []
+    target = []
+    aggressive = []
+    for file in input_training_files:
+        data = readfile(file)
+        id = id + data[0]
+        tweets = tweets + data[1]
+        hate_speech = hate_speech + data[2]
+        target = target + data[3]
+
 
     # Create DataFrame with data
     t = pd.DataFrame()
@@ -142,7 +152,8 @@ if __name__ == "__main__":
     # Start prediction
     f = open("../svm_predictions/en_a.tsv", "w",encoding="utf8")
     neg_pred = 0
-    with open('../../datasets/public_development_en/dev_en.tsv', encoding="utf8") as tsvfile:
+    #with open('../../datasets/public_development_en/dev_en.tsv', encoding="utf8") as tsvfile:
+    with open('../../datasets/public_test_en/test_en.tsv', encoding="utf8") as tsvfile:
         tsvreader = csv.reader(tsvfile, delimiter="\t")
         for line_number, line in enumerate(tsvreader):
             if(line_number>0):
@@ -150,14 +161,12 @@ if __name__ == "__main__":
                 prediction = grid_svm.predict([normalizer(line[1])])
                 proba = grid_svm.predict_proba([line[1]])
 
-                if(str(prediction[0]) != str(line[2])):
-                    neg_pred = neg_pred + 1
-                    print(proba)
-                    print(line[1])
                 f.write(str(prediction[0]))
                 f.write('\n')
+
+
     f.close()
-    print(neg_pred)
+    #print(neg_pred)
 
 
 

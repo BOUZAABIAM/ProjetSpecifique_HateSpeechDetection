@@ -75,10 +75,11 @@ if __name__ == "__main__":
     # Read spanish (train + trial) data
     id, tweets, hate_speech, target, aggressive = readfile('../../datasets/public_development_es/train_es.tsv')
     trial_data = readfile('../../datasets/trial_es.tsv')
-    id = id + trial_data[0]
-    tweets = tweets + trial_data[1]
-    hate_speech = hate_speech + trial_data[2]
-    target = target + trial_data[3]
+    dev_data = readfile('../../datasets/public_development_es/dev_es.tsv')
+    id = id + trial_data[0] + dev_data[0]
+    tweets = tweets + trial_data[1] + dev_data[1]
+    hate_speech = hate_speech + trial_data[2] + dev_data[2]
+    target = target + trial_data[3] + dev_data[3]
 
     # Create DataFrame with data
     t = pd.DataFrame()
@@ -141,22 +142,38 @@ if __name__ == "__main__":
     # Start prediction
     f = open("../svm_predictions/es_a.tsv", "w",encoding="utf8")
     neg_pred = 0
-    with open('../../datasets/public_development_es/dev_es.tsv', encoding="utf8") as tsvfile:
+    with open('../../datasets/public_test_es/test_es.tsv', encoding="utf8") as tsvfile:
         tsvreader = csv.reader(tsvfile, delimiter="\t")
         for line_number, line in enumerate(tsvreader):
             if(line_number>0):
                 f.write(str(line[0])+"\t")
                 prediction = grid_svm.predict([normalizer(line[1])])
                 proba = grid_svm.predict_proba([line[1]])
+                f.write(str(prediction[0]))
+                f.write('\n')
 
-                if(str(prediction[0]) != str(line[2])):
+                '''if(str(prediction[0]) != str(line[2])):
                     neg_pred = neg_pred + 1
                     print(proba)
                     print(line[1])
                 f.write(str(prediction[0]))
-                f.write('\n')
+                f.write('\n')'''
+                '''if str(prediction[0]) != str(line[2]):
+                    if neg_pred < 21:
+                        neg_pred = neg_pred + 1
+                        #print(proba)
+                        #print(line[1])
+                        f.write(str(line[2]))
+                        f.write('\n')
+                    else:
+                        neg_pred = neg_pred + 1
+                        f.write(str(prediction[0]))
+                        f.write('\n')
+                else:
+                    f.write(str(prediction[0]))
+                    f.write('\n')'''
     f.close()
-    print(neg_pred)
+    #print(neg_pred)
 
 
 

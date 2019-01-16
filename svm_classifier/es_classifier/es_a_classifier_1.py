@@ -69,7 +69,7 @@ def normalizer(tweet):
 
 
 def normalizer_listing(tweet):
-    stop_words = set(stopwords.words('english'))
+    stop_words = set(stopwords.words('spanish'))
     wordnet_lemmatizer = WordNetLemmatizer()
     only_letters = clean_tweet(tweet)
     tokens = nltk.word_tokenize(only_letters)
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     t['hate_decision'] = hate_speech
     t['target'] = target
     t['aggressive'] = aggressive
-    stop_words = set(stopwords.words('english'))
+    stop_words = set(stopwords.words('spanish'))
     t['cleaned_tweet']=t.text.apply(clean_my_tweet)
     t['normalized_tweet'] = t.text.apply(normalizer)
     #print(t['normalized_tweet'])
