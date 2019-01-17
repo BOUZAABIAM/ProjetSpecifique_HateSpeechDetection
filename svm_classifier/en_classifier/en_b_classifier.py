@@ -79,14 +79,24 @@ def get_roc_curve(model, X, y):
 
 if __name__ == "__main__":
 
-    # Read spanish (train + trial) data
-    id, tweets, hate_speech, target, aggressive = readfile('../../datasets/public_development_en/train_en.tsv')
-    trial_data = readfile('../../datasets/trial_en.tsv')
-    id = id + trial_data[0]
-    tweets = tweets + trial_data[1]
-    hate_speech = hate_speech + trial_data[2]
-    target = target + trial_data[3]
-    aggressive = aggressive + trial_data[4]
+    input_training_files = [
+        '../../datasets/public_development_en/train_en.tsv',
+        '../../datasets/trial_en.tsv',
+        '../../datasets/public_development_en/dev_en.tsv'
+    ]
+    # Read english (train + trial) data
+    id = []
+    tweets = []
+    hate_speech = []
+    target = []
+    aggressive = []
+    for file in input_training_files:
+        data = readfile(file)
+        id = id + data[0]
+        tweets = tweets + data[1]
+        hate_speech = hate_speech + data[2]
+        target = target + data[3]
+        aggressive = aggressive + data[4]
 
     # Create DataFrame with data
     t = pd.DataFrame()
@@ -150,7 +160,9 @@ if __name__ == "__main__":
 
     # Start prediction
     f = open("../svm_predictions/en_b.tsv", "w",encoding="utf8")
-    with open('../../datasets/public_development_en/dev_en.tsv', encoding="utf8") as tsvfile:
+    #with open('../../datasets/public_development_en/dev_en.tsv', encoding="utf8") as tsvfile:
+    with open('../../datasets/public_test_en/test_en.tsv', encoding="utf8") as tsvfile:
+
         tsvreader = csv.reader(tsvfile, delimiter="\t")
         for line_number, line in enumerate(tsvreader):
             if(line_number>0):
@@ -163,7 +175,7 @@ if __name__ == "__main__":
                     f.write(str(line[0])+"\t")
                     f.write(str(bit_one[0])+"\t")
                     f.write(str(bit_two[0]) + "\t")
-                    f.write(str(bit_three[0]) + "\t")
+                    f.write(str(bit_three[0]))
                 f.write('\n')
     f.close()
 
