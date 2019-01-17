@@ -75,7 +75,7 @@ if __name__ == "__main__":
     input_training_files = [
         '../../datasets/public_development_en/train_en.tsv',
         '../../datasets/trial_en.tsv',
-        '../../datasets/public_development_es/dev_es.tsv'
+        '../../datasets/public_development_en/dev_en.tsv'
     ]
     # Read english (train + trial) data
     id = []
@@ -164,7 +164,7 @@ if __name__ == "__main__":
                 f.write(str(prediction[0]))
                 f.write('\n')
 
-                
+
 
 
     f.close()
